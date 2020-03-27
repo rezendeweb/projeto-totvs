@@ -1,0 +1,21 @@
+<po-page-login
+  [p-background]="background"
+  [p-contact-email]="contactEmail"
+  [p-custom-field]="customField"
+  [p-environment]="environment"
+  [p-exceeded-attempts-warning]="exceededAttempts"
+  [p-hide-remember-user]="properties.includes('hideRememberUser')"
+  [p-loading]="properties.includes('loading')"
+  [p-literals]="customLiterals"
+  [p-login]="login"
+  [p-login-errors]="loginErrors"
+  [p-login-pattern]="loginPattern"
+  [p-logo]="logo"
+  [p-password-errors]="passwordErrors"
+  [p-password-pattern]="passwordPattern"
+  [p-product-name]="productName"
+  [p-recovery]="recovery"
+  [p-register-url]="registerUrl"
+  [p-secondary-logo]="secondaryLogo"
+  (p-login-submit)="loginSubmit($event)">
+</po-page-login>
