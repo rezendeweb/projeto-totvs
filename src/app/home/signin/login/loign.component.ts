@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PoPageLoginCustomField, PoPageLoginLiterals, PoPageLogin, PoPageLoginRecovery, PoModalPasswordRecoveryType } from '@portinari/portinari-templates';
 import { PoSelectOption, PoCheckboxGroupOption, PoDialogService } from '@portinari/portinari-ui';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -41,7 +42,8 @@ export class LoginComponent implements OnInit {
     { value: 'loading', label: 'Loading' }
   ];
 
-  constructor(private poDialog: PoDialogService) { }
+  constructor(private poDialog: PoDialogService,
+              private router: Router) { }
 
   ngOnInit() {
     this.restore();
@@ -75,10 +77,12 @@ export class LoginComponent implements OnInit {
 
   loginSubmit(formData: PoPageLogin) {
     if (this.exceededAttempts <= 0) {
-      this.poDialog.alert({
+      //por enquanto vou deixar sem validação de login
+      this.router.navigate(['principal'])
+      /*this.poDialog.alert({
         title: 'Authenticate',
         message: JSON.stringify(formData)
-      });
+      });*/
     }
   }
 

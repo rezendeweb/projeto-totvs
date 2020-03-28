@@ -1,0 +1,35 @@
+<po-page-list
+  p-title="Lista de Tarefas"
+  [p-actions]="actions"
+  [p-breadcrumb]="breadcrumb"
+  [p-disclaimer-group]="disclaimerGroup"
+  [p-filter]="filterSettings">
+
+  <po-table
+    p-checkbox
+    p-single-select
+    p-sort="true"
+    p-striped="true"
+    [p-columns]="hiringProcessesColumns"
+    [p-items]="hiringProcessesFiltered"
+    (p-show-more)="showMore()"
+    [p-show-more-disabled]="showMoreDisabled">
+  </po-table>
+
+</po-page-list>
+
+<po-modal
+  #advancedFilterModal
+  p-title="Busca Avançada"
+  [p-primary-action]="advancedFilterPrimaryAction">
+
+  <form #f="ngForm">
+    <po-checkbox-group
+      name="status"
+      [(ngModel)]="status"
+      p-label="Status"
+      [p-options]="statusOptions">
+    </po-checkbox-group>
+  </form>
+
+</po-modal>

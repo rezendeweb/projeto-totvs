@@ -11,7 +11,7 @@ import { PoPageLoginModule, PoModalPasswordRecoveryModule } from '@portinari/por
     PoModalPasswordRecoveryModule
   ],
   declarations: [
-      LoginComponent
-    ]
+    LoginComponent
+  ]
 })
 export class SigninModulo { }

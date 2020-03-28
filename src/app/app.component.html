@@ -1,1 +1,26 @@
-<router-outlet></router-outlet>
+<!--<div class="po-wrapper">
+    <po-toolbar p-title="Minhas Tarefas" *ngIf="authOk$ | async"></po-toolbar>
+  
+    <po-menu   
+        *ngIf="authOk$ | async"     
+        [p-menus]="menus"
+        p-filter
+    >
+    </po-menu>
+    <router-outlet></router-outlet>
+  </div> -->
+
+  <div class="po-wrapper">
+    <po-toolbar 
+        p-title="Desafio Portinari" 
+    >
+    </po-toolbar>
+  
+    <po-menu
+        [p-menus]="menus"
+        p-filter
+    >
+    </po-menu>
+    <!--As rotas são direcionadas para ca-->
+    <router-outlet></router-outlet>
+  </div>

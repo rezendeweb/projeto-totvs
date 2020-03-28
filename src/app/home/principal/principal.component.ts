@@ -1,21 +1,74 @@
-import { Component } from '@angular/core';
+import { AfterContentChecked, Component, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 
-import { PoMenuItem } from '@portinari/portinari-ui';
+import {
+  PoBreadcrumb,
+  PoModalAction,
+  PoModalComponent,
+  PoNotificationService,
+  PoPageAction,
+} from '@portinari/portinari-ui';
+
 
 @Component({
-    selector: 'app-principal',
-    templateUrl: './principal.component.html',
-    styleUrls: ['./principal.component.css']
-  })
-export class PrincipalComponent {
+  selector: 'app-principal',
+  templateUrl: './principal.component.html',
+  styleUrls: ['/principal.component.css']
+})
+export class PrincipalComponent implements AfterContentChecked {
 
-  readonly menus: Array<PoMenuItem> = [
-    { label: 'Home', action: this.onClick.bind(this) },
-    { label: 'Login', action: this.onClick.bind(this) }
+  email: string = undefined;
+  isSubscribed: boolean = false;
+
+  public readonly actions: Array<PoPageAction> = [
+    { label: 'Compartilhar', action: this.modalOpen, icon: 'po-icon-share' }
   ];
 
-  private onClick() {
-    alert('Clicked in menu item')
+  public readonly breadcrumb: PoBreadcrumb = {
+    items: [
+      { label: 'Home', link: '/principal' },
+    ]
+  };
+
+  public readonly cancelAction: PoModalAction = {
+    action: () => {
+      this.modalClose();
+    },
+    label: 'Cancel'
+  };
+
+  public readonly shareAction: PoModalAction = {
+    action: () => {
+      this.share();
+    },
+    label: 'Compartilhar'
+  };
+
+  @ViewChild('formShare', { static: true }) formShare: NgForm;
+  @ViewChild(PoModalComponent, { static: false }) poModal: PoModalComponent;
+
+  constructor(private poNotification: PoNotificationService) { }
+
+  ngAfterContentChecked() {
+    this.shareAction.danger = this.formShare.invalid;
+  }
+
+  modalClose() {
+    this.poModal.close();
+    this.formShare.reset();
+  }
+
+  modalOpen() {
+    this.poModal.open();
+  }
+
+  share() {
+    if (this.formShare.valid) {
+      this.poNotification.success(`Página compartilhada com sucesso para: ${this.email}.`);
+    } else {
+      this.poNotification.error(`Email inválido.`);
+    }
+    this.modalClose();
   }
 
 }

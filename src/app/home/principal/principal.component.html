@@ -1,9 +1,48 @@
-<div class="po-wrapper">
-  <po-toolbar p-title="AppName"></po-toolbar>
+<po-page-default
+  p-title="Visão Geral de Tarefas"
+  [p-actions]="actions"
+  [p-breadcrumb]="breadcrumb">
 
-  <po-menu [p-menus]="menus"></po-menu>
+  <po-container class="po-lg-6">
+    <po-widget
+      class="po-lg-6 po-mb-1"
+      p-title="Tarefas Canceladas">
 
-  <po-page-default p-title="AppName">
-    <p> AppName page </p>
-  </po-page-default>
-</div>
+      <div class="po-font-subtitle po-text-center">10</div>
+    </po-widget>
+
+    <po-widget
+      class="po-lg-6 po-mb-1"
+      p-title="Tarefas Iniciadas">
+
+      <div class="po-font-subtitle po-text-center">5</div>
+    </po-widget>
+
+    <po-widget
+      class="po-lg-6 po-mb-1"
+      p-title="Tarefas Concluídas">
+
+    <div class="po-font-subtitle po-text-center">4</div>
+  </po-widget>
+
+  </po-container>
+
+</po-page-default>
+
+<po-modal
+  p-title="Compartilhar página"
+  [p-primary-action]="shareAction"
+  [p-secondary-action]="cancelAction">
+
+  <form #formShare="ngForm">
+    <po-email
+      class="po-lg-12"
+      name="email"
+      [(ngModel)]="email"
+      p-clean
+      p-label="Coloque um email para compartilhar essa página"
+      p-required>
+    </po-email>
+  </form>
+
+</po-modal>
