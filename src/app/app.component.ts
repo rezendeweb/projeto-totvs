@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { PoMenuItem } from '@portinari/portinari-ui';
+import { TokenService } from './core/token/token.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -7,7 +9,16 @@ import { PoMenuItem } from '@portinari/portinari-ui';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent { 
-  
+
+  token$: Observable<boolean>;
+
+  constructor(private tokenService: TokenService){
+  }
+
+  ngOnInit(): void {
+    this.token$ = this.tokenService.hasToken();
+  }
+
   readonly menus: Array<PoMenuItem> = [
     { 
       label: 'Home', 
@@ -21,14 +32,14 @@ export class AppComponent {
       action: ''
     },
     
-    { label: 'Logout', 
-      link: '/',
-      action: '' 
+    { label: 'Logout',
+      action: this.signOut.bind(this),
+      link: '/'
     }
   ];
 
-  private onClick() {
-    alert('Clicked in menu item')
+  private signOut() {
+    this.tokenService.removeToken();
   }
 
 }

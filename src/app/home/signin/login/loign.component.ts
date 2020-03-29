@@ -1,7 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { PoPageLoginCustomField, PoPageLoginLiterals, PoPageLogin, PoPageLoginRecovery, PoModalPasswordRecoveryType } from '@portinari/portinari-templates';
-import { PoSelectOption, PoCheckboxGroupOption, PoDialogService } from '@portinari/portinari-ui';
+import { 
+  PoPageLoginCustomField, 
+  PoPageLoginLiterals, 
+  PoPageLogin, 
+  PoPageLoginRecovery, 
+  PoModalPasswordRecoveryType} 
+from '@portinari/portinari-templates';
+
+import { PoSelectOption, PoCheckboxGroupOption } from '@portinari/portinari-ui';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/core/auth/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -30,11 +38,7 @@ export class LoginComponent implements OnInit {
   passwordPattern: string;
   productName: string;
   properties: Array<string>;
-  recovery: PoPageLoginRecovery = {
-              url: '',
-              type: PoModalPasswordRecoveryType.Email,
-              contactMail: 'support@mail.com'
-  };
+  recovery: PoPageLoginRecovery;
   registerUrl: string;
 
   public readonly propertiesOptions: Array<PoCheckboxGroupOption> = [
@@ -42,7 +46,7 @@ export class LoginComponent implements OnInit {
     { value: 'loading', label: 'Loading' }
   ];
 
-  constructor(private poDialog: PoDialogService,
+  constructor(private authService: AuthService,
               private router: Router) { }
 
   ngOnInit() {
@@ -78,11 +82,18 @@ export class LoginComponent implements OnInit {
   loginSubmit(formData: PoPageLogin) {
     if (this.exceededAttempts <= 0) {
       //por enquanto vou deixar sem validação de login
-      this.router.navigate(['principal'])
-      /*this.poDialog.alert({
-        title: 'Authenticate',
-        message: JSON.stringify(formData)
-      });*/
+      const userName = formData.login;
+      const password = formData.password
+      
+      if (this.authService
+          .authenticate(userName, password)=='ABC123'){
+            console.log('autendicado');
+            this.router.navigate(['principal']);
+      }else{
+        console.log('erro');
+        this.exceededAttempts -= 1;
+        if(this.exceededAttempts == -4) this.exceededAttempts = 1;
+      }
     }
   }
 
@@ -99,21 +110,23 @@ export class LoginComponent implements OnInit {
     this.customFieldOptions = [];
     this.customLiterals = undefined;
     this.environment = '';
-    this.exceededAttempts = 0;
+    this.exceededAttempts = 0; //errou a senha adiciona na variavel
     this.secondaryLogo = undefined;
     this.literals = '';
     this.login = '';
-    this.loginPattern = '';
+    this.loginPattern = '@'&&'.com'; //validador na mascara do login
     this.loginError = '';
     this.loginErrors = [];
     this.logo = undefined;
     this.passwordError = '';
     this.passwordErrors = [];
     this.passwordPattern = '';
-    this.passwordError = '';
-    this.passwordErrors = [];
     this.productName = '';
-    //this.recovery = '';
+    this.recovery = {
+      url: '',
+      type: PoModalPasswordRecoveryType.Email,
+      contactMail: 'support@mail.com'
+    };
     this.registerUrl = '';
   }
 
